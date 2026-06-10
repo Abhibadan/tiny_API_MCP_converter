@@ -1,0 +1,126 @@
+[
+    {
+        "title": "Get All Posts",
+        "description": "Retrieve a list of all blog posts from the JSONPlaceholder API. Returns an array of post objects containing userId, id, title, and body fields. Useful for fetching complete post listings without filtering.",
+        "url": "https://jsonplaceholder.typicode.com/posts",
+        "method": "get",
+        "url_params_config": [],
+        "headers": {},
+        "parameters": {},
+        "body": {},
+        "resposneStructure": {
+            "type": "object",
+            "properties": {
+                "result": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "userId": {
+                                "type": "integer"
+                            },
+                            "id": {
+                                "type": "integer"
+                            },
+                            "title": {
+                                "type": "string"
+                            },
+                            "body": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "userId",
+                            "id",
+                            "title",
+                            "body"
+                        ]
+                    }
+                }
+            },
+            "required": [
+                "result"
+            ]
+        }
+    },
+    {
+        "title": "Get All Announcement",
+        "description": "Gets all Announcements From Server",
+        "url": "https://staging-crmadmin.webskittersacademy.in/api/announcement/get-all",
+        "method": "post",
+        "url_params_config": [],
+        "headers": {},
+        "parameters": {},
+        "body": {
+            "limit": 0,
+            "page": 0,
+            "search": "",
+            "filter": {
+                "dateRange": {
+                    "startDate": "2021-01-01",
+                    "endDate": "2021-12-31"
+                }
+            }
+        },
+        "resposneStructure": {
+            "type": "object",
+            "properties": {
+                "page": {
+                    "type": "integer"
+                },
+                "limit": {
+                    "type": "integer"
+                },
+                "pages": {
+                    "type": "integer"
+                },
+                "total": {
+                    "type": "integer"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "docs": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "_id": {
+                                "type": "string"
+                            },
+                            "title": {
+                                "type": "string"
+                            },
+                            "description": {
+                                "type": "string"
+                            },
+                            "location": {
+                                "type": "string"
+                            },
+                            "startDate": {
+                                "type": "string",
+                                "format": "date"
+                            },
+                            "endDate": {
+                                "type": "string",
+                                "format": "date"
+                            },
+                            "banner": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "_id",
+                            "title",
+                            "description",
+                            "location",
+                            "startDate",
+                            "endDate",
+                            "banner"
+                        ]
+                    }
+                }
+            }
+        }
+    }
+]
