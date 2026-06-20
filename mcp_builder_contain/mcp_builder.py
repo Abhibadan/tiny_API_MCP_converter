@@ -3,7 +3,7 @@ from fastmcp.tools import Tool
 import json
 import requests
 from pathlib import Path
-from models import APIModel, UrlParamsConfig
+from models import APIModel, UrlParamsConfig,ResponseStructure
 from typing import Annotated, List
 
 mcp = FastMCP("api-mcp-converter")
@@ -26,7 +26,7 @@ def mcpFunctionZipper(config: APIModel):
         headers: Annotated[dict, {"The headers will be sent as headers"}] = {},
         body: Annotated[dict, {"The body will be sent as the body of the request"}] = {},
         parameters: Annotated[dict, {"The parameters will be sent as query parameters"}] = {}
-    ):
+    ) -> ResponseStructure:
         try:
             base_url_params = {p.name: p.value for p in config.url_params_config}
             merged_url_params = base_url_params | (url_params if isinstance(url_params, dict) else {})
@@ -49,18 +49,15 @@ def mcpFunctionZipper(config: APIModel):
             response.raise_for_status()
             data = response.json()
 
-            if isinstance(data, list):
-                return {"result": data}
-            return data
+            return ResponseStructure(result=data,status="success",statusCode=response.status_code)
 
         except requests.HTTPError as e:
-            return {"error": f"HTTP {e.response.status_code}: {e.response.text}"}
+            return ResponseStructure(result=None,status="error",statusCode=e.response.status_code,error=f"HTTP {e.response.status_code}: {e.response.text}")
         except Exception as e:
-            return {"error": str(e)}
+            return ResponseStructure(result=None,status="error",statusCode=500,error=str(e))
 
     main.__name__ = config.title.replace(" ", "_").lower()
     main.__doc__ = f"\n    {config.description}\n    "
-    main.output_schema = config.resposneStructure
     return main
 
 _json_path = Path(__file__).parent.parent / "assets" / "json_mcp_store.json"
@@ -72,6 +69,6 @@ with open(_json_path) as file:
             Tool.from_function(
                 tool_declaration,
                 title=tool["title"],
-                output_schema=tool_declaration.output_schema
+                output_schema=ResponseStructure.model_json_schema()
             )
         )

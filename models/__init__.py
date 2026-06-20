@@ -1,4 +1,4 @@
-from .APIModel import APIModel,HeaderModel,BodyModel,ParameterModel,UrlParamsConfig
+from .APIModel import APIModel,HeaderModel,BodyModel,ParameterModel,UrlParamsConfig,ResponseStructure
 
 __all__ = [
     "APIModel",
@@ -6,4 +6,5 @@ __all__ = [
     "BodyModel",
     "ParameterModel",
     "UrlParamsConfig",
+    "ResponseStructure",
 ]

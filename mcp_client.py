@@ -21,11 +21,9 @@ async def main():
             print(e)
 
         try:
-            response = await client.call_tool("get_all_announcement",{
+            response = await client.call_tool("get_all_posts",{
             "headers":{},
-            "body":{
-                "page":1
-            },
+            "body":{},
             "parameters":{},
             "url_params":[]
         })
